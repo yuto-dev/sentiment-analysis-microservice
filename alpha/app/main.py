@@ -3,14 +3,15 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import praw
 import pandas as pd
+import keys
 
 app = FastAPI()
 
 # Initialize a Reddit API client
 reddit = praw.Reddit(
-    client_id='plTXW0WhFuIp3FEfXsFGGA',
-    client_secret='AYYprYCHIhoOZd8sYS6YxIXHJtxC7g',
-    user_agent='sentient-analysis',
+    client_id = keys.client_id,
+    client_secret = keys.client_secret,
+    user_agent = keys.user_agent,
 )
 
 @app.get("/")

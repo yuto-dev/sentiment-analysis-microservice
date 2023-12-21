@@ -1,5 +1,6 @@
 import requests
 import praw
+import keys
 
 alphaURL = "http://192.168.92.144:8000/"
 betaURL = "http://192.168.92.145:8000/analyze/"
@@ -8,16 +9,14 @@ betaURL = "http://192.168.92.145:8000/analyze/"
 
 # Initialize a Reddit API client
 reddit = praw.Reddit(
-    client_id='plTXW0WhFuIp3FEfXsFGGA',
-    client_secret='AYYprYCHIhoOZd8sYS6YxIXHJtxC7g',
-    user_agent='sentient-analysis',
+    client_id = keys.client_id,
+    client_secret = keys.client_secret,
+    user_agent = keys.user_agent,
 )
-
 
 # redditPostID = input("Enter a Reddit Post ID: ")
 
-payload = []
-payload = requests.get(alphaURL).json()
+payload = ["You are so good!", "It's ok I guess", "Kill yourself"]
 
 #---------- Call Beta ---------------
 

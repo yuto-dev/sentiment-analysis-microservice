@@ -2,7 +2,7 @@ import requests
 
 url = "http://127.0.0.1:8000/analyze/"
 
-payload = ["You are so good!", "It's ok I guess", "Kill yourself faggot"]
+payload = ["You are so good!", "It's ok I guess", "Kill yourself"]
 
 response = requests.get(url, json=payload)
 
