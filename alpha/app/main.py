@@ -10,8 +10,8 @@ app = FastAPI()
 # Initialize a Reddit API client
 reddit = praw.Reddit(
     client_id = keys.client_id,
-    client_secret = keys.client_secret,
-    user_agent = keys.user_agent,
+    client_secret= keys.client_secret,
+    user_agent= keys.user_agent
 )
 
 @app.get("/")
@@ -39,10 +39,10 @@ def defaultPost():
 
     return comment_body
 
-@app.get("/pull/")
+@app.get("/post/")
 def queryPost(post: str):
     # Get the post by its ID or URL
-    submission = reddit.submission(id=post)
+    submission = reddit.submission(id = post)
 
     # Create empty lists to store comment data
     comment_author = []
@@ -63,4 +63,18 @@ def queryPost(post: str):
     })
 
     return comment_body
+
+@app.get("/board/")
+def querySub(sub: str):
+    # Get the subreddit instance
+    subreddit = reddit.subreddit(sub)
+
+    # Get the top posts of the day
+    top_posts = subreddit.top(time_filter='day', limit=10)
+
+    # Extract post IDs
+    post_ids = [post.id for post in top_posts]
+
+    return post_ids
+
 
