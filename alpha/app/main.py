@@ -17,7 +17,7 @@ reddit = praw.Reddit(
 @app.get("/")
 def defaultPost():
     # Get the post by its ID or URL
-    submission = reddit.submission(id='17zmop9')
+    submission = reddit.submission(id='okwyxe')
 
     # Create empty lists to store comment data
     comment_author = []
