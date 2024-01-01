@@ -1,30 +1,12 @@
 import pandas as pd
 import base64
 import requests
-import praw
-import keys
 from datetime import date
-#from tqdm.notebook import tqdm
-#import json
-
 import pandas as pd
 import requests
-import praw
 
-alphaURL = "http://192.168.92.144:8000/"
+alphaURL = "http://192.168.92.147:8000/"
 betaURL = "http://192.168.92.145:8000/analyze/"
-
-#Call Alpha
-
-# Initialize a Reddit API client
-reddit = praw.Reddit(
-    client_id = keys.client_id,
-    client_secret = keys.client_secret,
-    user_agent = keys.user_agent,
-)
-
-
-# redditPostID = input("Enter a Reddit Post ID: ")
 
 payload = []
 payload = requests.get(alphaURL).json()
