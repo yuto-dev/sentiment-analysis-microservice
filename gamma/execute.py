@@ -75,9 +75,10 @@ def analyze(payload):
 
 def publish(avgScore, subreddit):
     
+    #Set credentials
     url = 'http://kayumeranti.my.id/wp-json/wp/v2'
     user = 'user'
-    password = 'pass'
+    password = 'applicationPassword'
 
     wp_connection = user + ':' + password
     token = base64.b64encode(wp_connection.encode())
@@ -115,19 +116,34 @@ def publish(avgScore, subreddit):
     post['tags'] = tag_ids
 
     wp_request = requests.post(url + '/posts', headers=headers, json=post)
-    print(wp_request)
+    #print(wp_request)
     print("Response Code:", wp_request.status_code)
-    print("Response Content:", wp_request.content)
+    #print("Response Content:", wp_request.content)
 
 
 testSub = ["intel", "amd", "nvidia", "gaming", "pcgaming", "civ", "space", "cars", "rally", "jdm"]
 
 for sub in testSub:
-    
-    postList = fetchPosts(sub)
+    try:
+        postList = fetchPosts(sub)
+    except Exception as e:
+        print(f"Error fetching posts for {sub}: {e}")
+        continue
 
-    comments = fetchComments(postList[0])
+    try:
+        comments = fetchComments(postList[0])
+    except Exception as e:
+        print(f"Error fetching comments for {postList[0]} from {sub}: {e}")
+        continue
 
-    commentAverage = analyze(comments)
+    try:
+        commentAverage = analyze(comments)
+    except Exception as e:
+        print(f"Error analyzing comments: {e}")
+        continue
 
-    publish(commentAverage, sub)
+    try:
+        publish(commentAverage, sub)
+    except Exception as e:
+        print(f"Error publishing comment average for {sub}: {e}")
+        continue
