@@ -75,20 +75,30 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def prompt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Extract the argument from the command
     argument = ' '.join(context.args)
-    now = rolex.now()
+    startTime = rolex.now()
     
-    notificationMessage = "*Processing prompt:* \n" + argument + "\n\n" + "*Time start: " + now.strftime("%Y-%m-%d %H:%M:%S") + " (GMT +7)*"
+    notificationMessage = "*Processing prompt:* \n" + argument + "\n\n" + "*Time start: " + startTime.strftime("%Y-%m-%d %H:%M:%S") + " (GMT +7)*"
     # Process the argument as needed
-    # For demonstration, just echo back the argument
     await context.bot.send_message(chat_id=update.effective_chat.id, text=notificationMessage, parse_mode='Markdown')
     
     gptResult, gptSource = callGPT(argument)
     formattedResponse = "*Replying to:*\n" + argument + "\n" + "*Response:*\n" + gptResult + "\n"
     formattedSource = "*Source:*\n" + gptSource[0] + "\n" + gptSource[1] + "\n"
-    now = rolex.now()
-    endTime = "*Time stop: " + now.strftime("%Y-%m-%d %H:%M:%S") + " (GMT +7)*"
+    endTime = rolex.now()
     
-    responseMessage = formattedResponse + "\n" + formattedSource + "\n" + endTime
+    stopTime = "*Time stop: " + endTime.strftime("%Y-%m-%d %H:%M:%S") + " (GMT +7)*"
+    
+    diffTime = endTime - startTime
+    
+    # Assuming diffTime is a timedelta object
+    hours, remainder = divmod(diffTime.total_seconds(), 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    # Format the time taken
+    timeTaken = "*Time taken: {:02}:{:02}:{:02} (HH:MM:SS)*".format(int(hours), int(minutes), int(seconds))
+
+    
+    responseMessage = formattedResponse + "\n" + formattedSource + "\n" + stopTime + "\n" + timeTaken
     
     await context.bot.send_message(chat_id=update.effective_chat.id, text=responseMessage, parse_mode='Markdown')
 
